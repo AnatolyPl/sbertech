@@ -1,0 +1,88 @@
+{
+  "test_monthly_deposit_success_initialization":[
+    {
+      "init_params": {
+        "start_date": "2010-12-17",
+        "amount": 10000,
+        "annual_rate": 5,
+        "periods": 1
+      },
+      "expected_deposit_periods_amount": [
+        {
+          "date": "2011-01-17",
+          "amount":  10041.67
+        }
+      ]
+    },
+    {
+      "init_params": {
+        "start_date": "2015-08-1",
+        "amount": 123123,
+        "annual_rate": 8,
+        "periods": 8
+      },
+      "expected_deposit_periods_amount": [
+        {
+          "date": "2015-09-01",
+          "amount": 123943.82
+        },
+        {
+          "date": "2015-10-01",
+          "amount": 124770.11
+        },
+        {
+          "date": "2015-11-01",
+          "amount": 125601.91
+        },
+        {
+          "date": "2015-12-01",
+          "amount": 126439.26
+        },
+        {
+          "date": "2016-01-01",
+          "amount": 127282.19
+        },
+        {
+          "date": "2016-02-01",
+          "amount": 128130.74
+        },
+        {
+          "date": "2016-03-01",
+          "amount": 128984.94
+        },
+        {
+          "date": "2016-04-01",
+          "amount": 129844.84
+        }
+
+      ]
+    }
+
+  ],
+  "test_monthly_deposit_validation_error":[
+    {
+      "init_params": {
+        "start_date": "2010-12-17",
+        "amount": 1000,
+        "annual_rate": 5,
+        "periods": 1
+      }
+    },
+    {
+      "init_params": {
+        "start_date": "2015-08-1",
+        "amount": 123123,
+        "annual_rate": 9,
+        "periods": 8
+      }
+    },
+    {
+      "init_params": {
+        "start_date": "2015-08-1",
+        "amount": 123123,
+        "annual_rate": 1,
+        "periods": 123
+      }
+    }
+  ]
+}

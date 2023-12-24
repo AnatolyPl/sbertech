@@ -1,0 +1,18 @@
+[experimental]
+  new-installer     = true
+  system-git-client = false
+
+[virtualenvs]
+  create               = true
+  in-project           = false
+  prefer-active-python = false
+
+  [virtualenvs.options]
+    always-copy          = false
+    no-pip               = true
+    no-setuptools        = true
+    system-site-packages = true
+
+[installer]
+  no-binary = false
+  parallel  = true

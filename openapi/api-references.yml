@@ -1,0 +1,210 @@
+openapi: 3.1.0
+info:
+  title: Deposit calculation system
+  contact:
+    name: Anatoly Ploshchadnyy
+    email: anatoly.ploshchadnyy@gmail.com
+  version: 0.1.0
+servers:
+- url: http://localhost:5000
+  description: Local deployment of the service
+paths:
+  /v1/deposits/monthly:
+    post:
+      tags:
+      - V1
+      - Deposits
+      summary: Get Monthly Deposit Periods Amount
+      operationId: get_monthly_deposit_periods_amount_v1_deposits_monthly_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonthlyDepositBodyParams'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonthlyDepositPostResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnexpectedErrorResponse'
+  /v2/deposits/monthly:
+    get:
+      tags:
+      - V2
+      - Deposits
+      summary: Get Monthly Deposit Periods Amount
+      operationId: get_monthly_deposit_periods_amount_v2_deposits_monthly_get
+      parameters:
+      - name: date
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+          title: Date
+      - name: periods
+        in: query
+        required: true
+        schema:
+          type: integer
+          maximum: 60
+          minimum: 1
+          title: Periods
+      - name: amount
+        in: query
+        required: true
+        schema:
+          type: integer
+          maximum: 3000000
+          minimum: 10000
+          title: Amount
+      - name: rate
+        in: query
+        required: true
+        schema:
+          type: number
+          maximum: 8.0
+          minimum: 1.0
+          title: Rate
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonthlyDepositGetResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnexpectedErrorResponse'
+          description: Internal Server Error
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MonthlyDeposit:
+      properties:
+        date:
+          type: string
+          format: date
+          title: Date
+        amount:
+          type: number
+          title: Amount
+      type: object
+      required:
+      - date
+      - amount
+      title: MonthlyDeposit
+    MonthlyDepositBodyParams:
+      properties:
+        date:
+          type: string
+          format: date
+          title: Date
+          description: dd.mm.YYYY format supported only
+        periods:
+          type: integer
+          maximum: 60.0
+          minimum: 1.0
+          title: Periods
+        amount:
+          type: integer
+          maximum: 3000000.0
+          minimum: 10000.0
+          title: Amount
+        rate:
+          type: number
+          maximum: 8.0
+          minimum: 1.0
+          title: Rate
+      type: object
+      required:
+      - date
+      - periods
+      - amount
+      - rate
+      title: MonthlyDepositBodyParams
+    MonthlyDepositGetResponse:
+      properties:
+        depositAmountMonthly:
+          items:
+            $ref: '#/components/schemas/MonthlyDeposit'
+          type: array
+          title: Depositamountmonthly
+      type: object
+      required:
+      - depositAmountMonthly
+      title: MonthlyDepositGetResponse
+    MonthlyDepositPostResponse:
+      additionalProperties:
+        type: number
+      type: object
+      title: MonthlyDepositPostResponse
+    UnexpectedErrorResponse:
+      properties:
+        error:
+          type: string
+          title: Error
+      type: object
+      required:
+      - error
+      title: UnexpectedErrorResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ValidationErrorResponse:
+      properties:
+        error:
+          type: string
+          title: Error
+      type: object
+      required:
+      - error
+      title: ValidationErrorResponse
