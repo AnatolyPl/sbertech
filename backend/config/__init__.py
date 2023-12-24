@@ -7,4 +7,3 @@ environment = os.getenv("ENV_NAME", "local")
 APP_NAME = "hecate"
 
 app_config = get_config()
-

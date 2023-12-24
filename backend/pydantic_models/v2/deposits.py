@@ -25,8 +25,11 @@ class MonthlyDepositGetResponse(BaseModel):
 
     @classmethod
     def from_domain_entity(cls, monthly_periods_amount: List[DepositPeriodAmount]):
-
-        return cls.model_validate({
-            "depositAmountMonthly":
-                [month_period_amount.dict() for month_period_amount in monthly_periods_amount]
-        })
+        return cls.model_validate(
+            {
+                "depositAmountMonthly": [
+                    month_period_amount.dict()
+                    for month_period_amount in monthly_periods_amount
+                ]
+            }
+        )
